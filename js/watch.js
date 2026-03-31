@@ -60,20 +60,22 @@ function loadTrailerOrPlaceholder() {
   const placeholder = document.getElementById('playerPlaceholder');
   const player = document.getElementById('youtubePlayer');
 
-  if (trailer?.youtube_id && currentEp === 1) {
-    // Show trailer for episode 1
+  if (trailer?.youtube_id) {
+    // Play the official trailer for every episode
     player.src = `https://www.youtube.com/embed/${trailer.youtube_id}?autoplay=1&rel=0`;
     player.style.display = 'block';
     placeholder.style.display = 'none';
     document.getElementById('sourceNotice').style.display = 'flex';
+    document.getElementById('sourceNotice').querySelector('.notice-text').innerHTML =
+      `<strong>Trailer officiel — Épisode ${currentEp}.</strong> Les épisodes complets ne sont pas encore disponibles en streaming. Profite du trailer HD en attendant !`;
   } else {
-    // Show placeholder
+    // No trailer available at all
     player.style.display = 'none';
     player.src = '';
     placeholder.style.display = 'flex';
-    document.getElementById('playerMessage').textContent = `Épisode ${currentEp}`;
+    document.getElementById('playerMessage').textContent = animeData?.title || '';
     document.getElementById('playerSubMessage').textContent =
-      'Cet épisode sera disponible prochainement. En attendant, regarde le trailer depuis la page de détails !';
+      `Aucune vidéo disponible pour l'instant. Reviens bientôt !`;
     document.getElementById('sourceNotice').style.display = 'none';
   }
 }
