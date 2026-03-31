@@ -151,58 +151,66 @@ function renderDetails(a) {
     `).join('');
 }
 
-async function loadEpisodes(page = 1) {
+async function loadEpisodes() {
+  // Determine total from anime metadata first
+  const isMovie = animeData?.type === 'Movie';
+  totalEpisodes = isMovie ? 1 : (animeData?.episodes || 0);
+
+  // Build placeholders immediately so the list is never empty
+  buildEpisodePlaceholders(totalEpisodes || 24);
+
+  // Then try to enrich with real episode titles from API
   try {
-    const data = await API.getEpisodes(animeId, page);
+    const data = await API.getEpisodes(animeId, 1);
     const eps = data.data || [];
-
     if (eps.length > 0) {
-      episodesList = eps;
-      totalEpisodes = animeData?.episodes || eps.length;
-
-      // Build batch select
-      const batchCount = Math.ceil(totalEpisodes / BATCH_SIZE);
-      const select = document.getElementById('episodeBatch');
-      select.innerHTML = '';
-      for (let i = 0; i < batchCount; i++) {
-        const start = i * BATCH_SIZE + 1;
-        const end = Math.min((i + 1) * BATCH_SIZE, totalEpisodes);
-        const opt = document.createElement('option');
-        opt.value = i;
-        opt.textContent = `Épisodes ${start}–${end}`;
-        select.appendChild(opt);
+      // Merge real titles into placeholders
+      eps.forEach(ep => {
+        const idx = ep.mal_id - 1;
+        if (episodesList[idx]) {
+          episodesList[idx].title = ep.title || null;
+          episodesList[idx].filler = ep.filler || false;
+          episodesList[idx].recap = ep.recap || false;
+        }
+      });
+      // If API gave more episodes than we had, update total
+      if (eps.length > episodesList.length) {
+        totalEpisodes = eps.length;
+        buildEpisodePlaceholders(totalEpisodes);
+        eps.forEach(ep => {
+          const idx = ep.mal_id - 1;
+          if (episodesList[idx]) {
+            episodesList[idx].title = ep.title || null;
+            episodesList[idx].filler = ep.filler || false;
+            episodesList[idx].recap = ep.recap || false;
+          }
+        });
       }
-
       renderEpisodeBatch();
-    } else {
-      // No episode data — generate placeholder episodes
-      totalEpisodes = animeData?.episodes || 12;
-      generatePlaceholderEpisodes();
     }
   } catch (e) {
-    totalEpisodes = animeData?.episodes || 12;
-    generatePlaceholderEpisodes();
+    // Placeholders already shown, nothing to do
   }
 }
 
-function generatePlaceholderEpisodes() {
-  const batchCount = Math.ceil(totalEpisodes / BATCH_SIZE);
+function buildEpisodePlaceholders(count) {
+  episodesList = [];
+  for (let i = 1; i <= count; i++) {
+    episodesList.push({ mal_id: i, title: null, filler: false, recap: false });
+  }
+  totalEpisodes = count;
+
+  const batchCount = Math.ceil(count / BATCH_SIZE);
   const select = document.getElementById('episodeBatch');
   select.innerHTML = '';
   for (let i = 0; i < batchCount; i++) {
     const start = i * BATCH_SIZE + 1;
-    const end = Math.min((i + 1) * BATCH_SIZE, totalEpisodes);
+    const end = Math.min((i + 1) * BATCH_SIZE, count);
     const opt = document.createElement('option');
     opt.value = i;
     opt.textContent = `Épisodes ${start}–${end}`;
     select.appendChild(opt);
   }
-
-  const eps = [];
-  for (let i = 1; i <= totalEpisodes; i++) {
-    eps.push({ mal_id: i, title: null, filler: false, recap: false });
-  }
-  episodesList = eps;
   renderEpisodeBatch();
 }
 

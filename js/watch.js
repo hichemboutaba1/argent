@@ -81,20 +81,30 @@ function changeEpisode(delta) {
 }
 
 async function loadEpisodes() {
-  try {
-    const data = await API.getEpisodes(animeId, 1);
-    episodesList = data.data || [];
-    if (episodesList.length === 0) generatePlaceholders();
-  } catch (e) {
-    generatePlaceholders();
+  // Always generate placeholders first so sidebar is never empty
+  const isMovie = animeData?.type === 'Movie';
+  const count = isMovie ? 1 : (animeData?.episodes || 24);
+  totalEps = count;
+
+  episodesList = [];
+  for (let i = 1; i <= count; i++) {
+    episodesList.push({ mal_id: i, title: null });
   }
   renderSidebar();
-}
 
-function generatePlaceholders() {
-  episodesList = [];
-  for (let i = 1; i <= totalEps; i++) {
-    episodesList.push({ mal_id: i, title: null });
+  // Enrich with real episode titles
+  try {
+    const data = await API.getEpisodes(animeId, 1);
+    const eps = data.data || [];
+    if (eps.length > 0) {
+      eps.forEach(ep => {
+        const idx = ep.mal_id - 1;
+        if (episodesList[idx]) episodesList[idx].title = ep.title || null;
+      });
+      renderSidebar();
+    }
+  } catch (e) {
+    // Already showing placeholders
   }
 }
 
