@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AniStream — Regarder</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body class="watch-body">
+  <nav class="navbar navbar-watch" id="navbar">
+    <div class="nav-brand">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">▶</span>
+        <span>Ani<span class="logo-accent">Stream</span></span>
+      </a>
+    </div>
+    <div class="nav-watch-info">
+      <span id="watchAnimeTitle">Chargement...</span>
+      <span class="sep">·</span>
+      <span id="watchEpTitle">Épisode 1</span>
+    </div>
+    <div class="nav-actions">
+      <button class="btn-secondary" onclick="showComingSoon()">Connexion</button>
+    </div>
+  </nav>
+
+  <div class="watch-layout">
+    <!-- PLAYER AREA -->
+    <div class="player-area">
+      <div class="player-container" id="playerContainer">
+        <div class="player-placeholder" id="playerPlaceholder">
+          <div class="player-logo">▶</div>
+          <h2 id="playerMessage">Chargement de l'épisode...</h2>
+          <p id="playerSubMessage"></p>
+        </div>
+        <iframe
+          id="youtubePlayer"
+          src=""
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          style="display:none; width:100%; height:100%; position:absolute; top:0; left:0;"
+        ></iframe>
+      </div>
+
+      <!-- PLAYER CONTROLS INFO -->
+      <div class="player-info-bar">
+        <div class="player-info-left">
+          <h2 class="player-title" id="playerTitle">...</h2>
+          <p class="player-subtitle" id="playerSubtitle"></p>
+        </div>
+        <div class="player-info-right">
+          <button class="btn-icon" id="prevEpBtn" onclick="changeEpisode(-1)">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="m15 18-6-6 6-6"/>
+            </svg>
+            Précédent
+          </button>
+          <button class="btn-icon" id="nextEpBtn" onclick="changeEpisode(1)">
+            Suivant
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- SOURCE NOTICE -->
+      <div class="source-notice" id="sourceNotice">
+        <div class="notice-icon">ℹ️</div>
+        <div class="notice-text">
+          <strong>Lecture du trailer officiel.</strong>
+          Les épisodes complets seront disponibles prochainement. En attendant, profite du trailer HD !
+        </div>
+        <button class="notice-close" onclick="this.parentElement.style.display='none'">✕</button>
+      </div>
+    </div>
+
+    <!-- EPISODES SIDEBAR -->
+    <div class="episodes-sidebar">
+      <div class="sidebar-header">
+        <h3>Épisodes</h3>
+        <a href="#" id="backToAnime" class="back-link">← Détails</a>
+      </div>
+      <div class="sidebar-episodes" id="sidebarEpisodes">
+        <p class="loading-text">Chargement...</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="js/api.js"></script>
+  <script src="js/watch.js"></script>
+</body>
+</html>

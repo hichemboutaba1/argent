@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AniStream — Streaming Anime Gratuit</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-brand">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">▶</span>
+        <span>Ani<span class="logo-accent">Stream</span></span>
+      </a>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="active">Accueil</a>
+      <a href="browse.html">Catalogue</a>
+      <a href="browse.html?genre=action">Action</a>
+      <a href="browse.html?genre=romance">Romance</a>
+      <a href="browse.html?genre=fantasy">Fantaisie</a>
+    </div>
+    <div class="nav-actions">
+      <a href="search.html" class="btn-icon" title="Rechercher">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+      </a>
+      <button class="btn-primary" onclick="showComingSoon()">Connexion</button>
+    </div>
+    <button class="nav-toggle" onclick="toggleMobileMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Accueil</a>
+    <a href="browse.html">Catalogue</a>
+    <a href="search.html">Rechercher</a>
+    <a href="browse.html?genre=action">Action</a>
+    <a href="browse.html?genre=romance">Romance</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content" id="heroContent">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        <span>Tendance cette semaine</span>
+      </div>
+      <h1 class="hero-title" id="heroTitle">Chargement...</h1>
+      <div class="hero-meta" id="heroMeta"></div>
+      <p class="hero-synopsis" id="heroSynopsis"></p>
+      <div class="hero-actions">
+        <a href="#" class="btn-watch" id="heroWatchBtn">
+          <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+          Regarder maintenant
+        </a>
+        <a href="#" class="btn-info" id="heroInfoBtn">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>
+          </svg>
+          Plus d'infos
+        </a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path d="m6 9 6 6 6-6"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- CURRENTLY AIRING -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="live-dot"></span>
+          En cours de diffusion
+        </h2>
+        <a href="browse.html?filter=airing" class="see-all">Voir tout →</a>
+      </div>
+      <div class="cards-grid" id="airingGrid">
+        <div class="loading-grid">
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOP RATED -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span class="star-icon">★</span>
+          Mieux notés
+        </h2>
+        <a href="browse.html?filter=top" class="see-all">Voir tout →</a>
+      </div>
+      <div class="cards-grid" id="topGrid">
+        <div class="loading-grid">
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEASONAL -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span>🌸</span>
+          Saison actuelle
+        </h2>
+        <a href="browse.html?filter=seasonal" class="see-all">Voir tout →</a>
+      </div>
+      <div class="cards-grid" id="seasonalGrid">
+        <div class="loading-grid">
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GENRES -->
+    <section class="section genres-section">
+      <div class="section-header">
+        <h2 class="section-title">Parcourir par genre</h2>
+      </div>
+      <div class="genres-grid">
+        <a href="browse.html?genre=1" class="genre-card genre-action">Action</a>
+        <a href="browse.html?genre=4" class="genre-card genre-comedy">Comédie</a>
+        <a href="browse.html?genre=8" class="genre-card genre-drama">Drame</a>
+        <a href="browse.html?genre=10" class="genre-card genre-fantasy">Fantaisie</a>
+        <a href="browse.html?genre=22" class="genre-card genre-romance">Romance</a>
+        <a href="browse.html?genre=24" class="genre-card genre-scifi">Sci-Fi</a>
+        <a href="browse.html?genre=37" class="genre-card genre-supernatural">Surnaturel</a>
+        <a href="browse.html?genre=14" class="genre-card genre-horror">Horreur</a>
+      </div>
+    </section>
+
+    <!-- POPULAR ALL TIME -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span>🔥</span>
+          Populaires de tous les temps
+        </h2>
+        <a href="browse.html?filter=popular" class="see-all">Voir tout →</a>
+      </div>
+      <div class="cards-grid" id="popularGrid">
+        <div class="loading-grid">
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="logo-icon">▶</span>
+        <span>Ani<span class="logo-accent">Stream</span></span>
+        <p>Le meilleur site de streaming d'anime en français.</p>
+      </div>
+      <div class="footer-links">
+        <div>
+          <h4>Navigation</h4>
+          <a href="index.html">Accueil</a>
+          <a href="browse.html">Catalogue</a>
+          <a href="search.html">Rechercher</a>
+        </div>
+        <div>
+          <h4>Genres</h4>
+          <a href="browse.html?genre=1">Action</a>
+          <a href="browse.html?genre=22">Romance</a>
+          <a href="browse.html?genre=10">Fantaisie</a>
+        </div>
+        <div>
+          <h4>À propos</h4>
+          <a href="#">Contact</a>
+          <a href="#">Conditions</a>
+          <a href="#">Confidentialité</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 AniStream. Données fournies par <a href="https://jikan.moe" target="_blank">Jikan API</a> / MyAnimeList.</p>
+    </div>
+  </footer>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

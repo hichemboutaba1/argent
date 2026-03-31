@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AniStream — Catalogue</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="nav-brand">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">▶</span>
+        <span>Ani<span class="logo-accent">Stream</span></span>
+      </a>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Accueil</a>
+      <a href="browse.html" class="active">Catalogue</a>
+    </div>
+    <div class="nav-actions">
+      <a href="search.html" class="btn-icon">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+      </a>
+      <button class="btn-primary" onclick="showComingSoon()">Connexion</button>
+    </div>
+  </nav>
+
+  <main class="main-content" style="padding-top:100px">
+    <div class="browse-page">
+      <div class="browse-header">
+        <h1 id="browseTitle">Catalogue complet</h1>
+        <div class="browse-filters">
+          <select id="browseFilter" onchange="applyFilter()">
+            <option value="bypopularity">Popularité</option>
+            <option value="airing">En cours</option>
+            <option value="upcoming">À venir</option>
+            <option value="tv">Séries TV</option>
+            <option value="movie">Films</option>
+            <option value="ova">OVA</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="genre-pills" id="genrePills">
+        <button class="genre-pill active" data-genre="">Tous</button>
+        <button class="genre-pill" data-genre="1">Action</button>
+        <button class="genre-pill" data-genre="4">Comédie</button>
+        <button class="genre-pill" data-genre="8">Drame</button>
+        <button class="genre-pill" data-genre="10">Fantaisie</button>
+        <button class="genre-pill" data-genre="14">Horreur</button>
+        <button class="genre-pill" data-genre="22">Romance</button>
+        <button class="genre-pill" data-genre="24">Sci-Fi</button>
+        <button class="genre-pill" data-genre="37">Surnaturel</button>
+        <button class="genre-pill" data-genre="7">Mystère</button>
+        <button class="genre-pill" data-genre="2">Aventure</button>
+      </div>
+
+      <div class="cards-grid browse-grid" id="browseGrid">
+        <div class="loading-grid">
+          <div class="skeleton-card"></div><div class="skeleton-card"></div>
+          <div class="skeleton-card"></div><div class="skeleton-card"></div>
+          <div class="skeleton-card"></div><div class="skeleton-card"></div>
+          <div class="skeleton-card"></div><div class="skeleton-card"></div>
+        </div>
+      </div>
+      <div class="pagination" id="pagination"></div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-bottom">
+      <p>© 2026 AniStream. Données fournies par <a href="https://jikan.moe" target="_blank">Jikan API</a>.</p>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+  <script src="js/api.js"></script>
+  <script src="js/browse.js"></script>
+</body>
+</html>
