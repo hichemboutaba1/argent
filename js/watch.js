@@ -29,9 +29,18 @@ function setupPage() {
   document.title = `AniStream — ${a.title} · Épisode ${currentEp}`;
   document.getElementById('watchAnimeTitle').textContent = a.title;
   document.getElementById('backToAnime').href = `anime.html?id=${animeId}`;
-  totalEps = a.episodes || 1;
+
+  // Build episode list synchronously — no API needed
+  const isMovie = a.type === 'Movie';
+  totalEps = isMovie ? 1 : (a.episodes || 24);
+  episodesList = [];
+  for (let i = 1; i <= totalEps; i++) {
+    episodesList.push({ mal_id: i, title: null });
+  }
+
   updatePlayerUI();
   loadTrailerOrPlaceholder();
+  renderSidebar();
 }
 
 function updatePlayerUI() {
@@ -81,18 +90,7 @@ function changeEpisode(delta) {
 }
 
 async function loadEpisodes() {
-  // Always generate placeholders first so sidebar is never empty
-  const isMovie = animeData?.type === 'Movie';
-  const count = isMovie ? 1 : (animeData?.episodes || 24);
-  totalEps = count;
-
-  episodesList = [];
-  for (let i = 1; i <= count; i++) {
-    episodesList.push({ mal_id: i, title: null });
-  }
-  renderSidebar();
-
-  // Enrich with real episode titles
+  // Enrich sidebar with real episode titles (optional, sidebar already visible)
   try {
     const data = await API.getEpisodes(animeId, 1);
     const eps = data.data || [];
@@ -104,7 +102,7 @@ async function loadEpisodes() {
       renderSidebar();
     }
   } catch (e) {
-    // Already showing placeholders
+    // Sidebar already showing placeholders
   }
 }
 
